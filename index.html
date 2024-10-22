@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Form</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <h1>Product Catalog</h1>
+    <div id="newProductForm">
+      <label for="name_input">Name:</label>
+      <input type="text" id="name_input" required />
+      <br />
+      <br />
+
+      <label for="price_input">Price:</label>
+      <input type="number" id="price_input" required />
+      <br />
+      <br />
+
+      <label for="category_input">Category:</label>
+      <input type="text" id="category_input" required />
+      <br />
+      <br />
+
+      <button id="addProductButton">Add</button>
+    </div>
+
+    <div id="productList">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody id="productTable"></tbody>
+      </table>
+    </div>
+
+    <script>
+      class Product {
+        static total_product = 0;
+
+        constructor(name, price, category) {
+          this.name = name;
+          this.price = parseFloat(price);
+          this.category = category;
+          Product.total_product += 1;
+        }
+
+        static totalProducts() {
+          return Product.total_product;
+        }
+
+        displayProductInfo() {
+          console.log(
+            `Product Info:\n
+            name: ${this.name}\n
+            price: ${this.price}\n
+            category: ${this.category}`
+          );
+        }
+      }
+
+      $(document).ready(() => {
+        $("#addProductButton").click(() => {
+          const name = $("#name_input").val();
+          const price = $("#price_input").val();
+          const category = $("#category_input").val();
+          const product = new Product(name, price, category);
+          product.displayProductInfo();
+
+          $("#productTable").append(`
+                    <tr>
+                        <td>${Product.totalProducts()}</td>
+                        <td>${product.name}</td>
+                        <td>${product.price}</td>
+                    </tr>
+                `);
+
+          $("#name_input").val("");
+          $("#price_input").val("");
+          $("#category_input").val("");
+        });
+      });
+    </script>
+  </body>
+</html>
